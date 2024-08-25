@@ -8,9 +8,6 @@
 6 git push -u origin main
 
 
-
-
-
 # responsive_design
 
 A new Flutter project.
