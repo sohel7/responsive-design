@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_design/presentation/widgets/dashboard_card.dart';
 import 'package:responsive_design/presentation/widgets/nav_menu.dart';
 import 'package:responsive_design/presentation/widgets/responsive_builder.dart';
 
@@ -15,10 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
-    mobile:_buildMobileLayout(),
-    tablet:_buildTabletLayout(),
-    desktop: _buildDesktopLayout()
-);
+        mobile: _buildMobileLayout(),
+        tablet: _buildTabletLayout(),
+        desktop: _buildDesktopLayout()
+    );
   }
 
   Widget _buildMobileLayout() {
@@ -27,60 +30,66 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Home'),
         backgroundColor: Colors.pink,
       ),
-      drawer:  const NavMenu(),
-      body:  ResponsiveBuilder(
-        mobile: const Center(
-        child: Text('Hello From Mobile'),
+      drawer: const NavMenu(),
+      body:  Column(
+        children: [
+          _getSummarySection(crossAxisCount:1,ratio: 2.4)
+        ],
       ),
-        tablet: const Center(
-          child: Text('Hello From Tablet'),
-        ),
-        desktop: Container(
-          color: Colors.pink,
-          child: const Center(
-            child: Text('Hello From Fesktop'),
-          ),
-        ),
-
-      )
-  );
-  }
-  Widget _buildTabletLayout() {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Home'),
-          backgroundColor: Colors.pink,
-        ),
-        drawer:  const NavMenu(),
-        body:  ResponsiveBuilder( mobile: const Center(
-          child: Text('Hello From Mobile'),
-        ),
-          tablet: const Center(
-            child: Text('Hello From Tablet'),
-          ),
-          desktop: Container(
-            color: Colors.pink,
-            child: const Center(
-              child: Text('Hello From Fesktop'),
-            ),
-          ),
-
-        )
     );
   }
+
+  Widget _buildTabletLayout() {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+        backgroundColor: Colors.pink,
+      ),
+      drawer: const NavMenu(),
+      body: Column(
+        children: [_getSummarySection(crossAxisCount: 2,ratio: 2)],
+      ),
+    );
+  }
+
   Widget _buildDesktopLayout() {
-    return const Scaffold(
-        body:  Row(
+    return  Scaffold(
+        body: Row(
           children: [
             NavMenu(),
-            Expanded(child:Center(
-                child: Text('From Desktop')
-            ),)
+            Expanded(
+              child: Column(
+                children: [
+                  _getSummarySection(crossAxisCount:3, ratio: 1.2)
+                ],
+              ),
+            ),
           ],
         )
     );
   }
 
+  Widget _getSummarySection({required int crossAxisCount, required double ratio}) {
+    return GridView(
+      shrinkWrap: true,
+      primary: false,
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+         // childAspectRatio: ratio
+        mainAxisExtent: 200
+      ),
+    children: const [
+      DashboardCard(),
+      DashboardCard(),
+      DashboardCard(),
+      DashboardCard(),
+
+    ],
+    );
+  }
+
 }
+
+
 
 
